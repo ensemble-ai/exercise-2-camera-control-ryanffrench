@@ -1,22 +1,57 @@
 class_name PosLockLerpCamera
 extends CameraControllerBase
 
+@export var box_width:float = 10.0
+@export var box_height:float = 10.0
 @export var cross_size:float = 20
-@export var lead_speed:float
-@export var catchup_delay_duration:float
-@export var catchup_speed:float
-@export var leash_distance:float
+@export var follow_speed:float = 10
+@export var catchup_speed:float = 15
+@export var leash_distance:float = 13
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	super()
 	position = target.position
 	
-	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if !current:
+		return
+	
+	if draw_camera_logic:
+		draw_logic()
+	
+	var cameraDistToPlayer = global_position.distance_to(target.global_position)
+	
+	if target.velocity == Vector3(0,0,0):
+		global_position = lerp(global_position,target.global_position,catchup_speed * delta)
+	elif cameraDistToPlayer >= leash_distance: 
+		#Camera essentially turns into a push box when the player gets too far.
+		var tpos = target.global_position
+		var cpos = global_position
+		
+		#boundary checks
+		#left
+		var diff_between_left_edges = (tpos.x - target.WIDTH / 2.0) - (cpos.x - box_width / 2.0)
+		if diff_between_left_edges < 0:
+			global_position.x += diff_between_left_edges
+		#right
+		var diff_between_right_edges = (tpos.x + target.WIDTH / 2.0) - (cpos.x + box_width / 2.0)
+		if diff_between_right_edges > 0:
+			global_position.x += diff_between_right_edges
+		#top
+		var diff_between_top_edges = (tpos.z - target.HEIGHT / 2.0) - (cpos.z - box_height / 2.0)
+		if diff_between_top_edges < 0:
+			global_position.z += diff_between_top_edges
+		#bottom
+		var diff_between_bottom_edges = (tpos.z + target.HEIGHT / 2.0) - (cpos.z + box_height / 2.0)
+		if diff_between_bottom_edges > 0:
+			global_position.z += diff_between_bottom_edges
+	else:
+		global_position = lerp(global_position,target.global_position,follow_speed * delta)
+	
+	super(delta)
 	
 func draw_logic() -> void:
 	var mesh_instance := MeshInstance3D.new()
