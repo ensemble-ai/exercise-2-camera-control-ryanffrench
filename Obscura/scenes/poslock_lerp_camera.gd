@@ -1,25 +1,23 @@
-class_name PositionLock
+class_name PosLockLerpCamera
 extends CameraControllerBase
 
 @export var cross_size:float = 20
+@export var lead_speed:float
+@export var catchup_delay_duration:float
+@export var catchup_speed:float
+@export var leash_distance:float
 
+# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	super()
 	position = target.position
 	
-
-func _process(delta: float) -> void:
-	if !current:
-		return
 	
-	if draw_camera_logic:
-		draw_logic()
-		
-	global_position.x = target.global_position.x
-	global_position.z = target.global_position.z
-	super(delta)
 
-
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+	
 func draw_logic() -> void:
 	var mesh_instance := MeshInstance3D.new()
 	var immediate_mesh := ImmediateMesh.new()
