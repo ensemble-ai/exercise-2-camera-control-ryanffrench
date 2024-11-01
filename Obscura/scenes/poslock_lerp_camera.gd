@@ -22,12 +22,14 @@ func _process(delta: float) -> void:
 	if draw_camera_logic:
 		draw_logic()
 	
+	#Calculates the distance the player is from the camera
 	var cameraDistToPlayer = global_position.distance_to(target.global_position)
 	
-	if target.velocity == Vector3(0,0,0):
+	#If the player stops the camera catches up
+	if target.velocity == Vector3(0,0,0): 
 		global_position = lerp(global_position,target.global_position,catchup_speed * delta)
-	elif cameraDistToPlayer >= leash_distance: 
-		#Camera essentially turns into a push box when the player gets too far.
+	elif cameraDistToPlayer >= leash_distance:
+		#Camera essentially turns into a push box when the player hits the leash
 		var tpos = target.global_position
 		var cpos = global_position
 		
@@ -49,6 +51,7 @@ func _process(delta: float) -> void:
 		if diff_between_bottom_edges > 0:
 			global_position.z += diff_between_bottom_edges
 	else:
+		#Camera trails the player
 		global_position = lerp(global_position,target.global_position,follow_speed * delta)
 	
 	super(delta)

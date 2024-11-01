@@ -23,14 +23,15 @@ func _process(delta: float) -> void:
 	if draw_camera_logic:
 		draw_logic()
 	
-	var cameraDistToPlayer = global_position.distance_to(target.global_position)
-	
+	#Calculates the camera target
 	var lookahead = target.global_position + (target.velocity.normalized() * leash_distance)
+	#If the player stops the camera waits before catching up
 	if target.velocity == Vector3(0,0,0):
 		timeStationary += delta
 		if timeStationary >= catchup_delay_duration:
 			global_position = lerp(global_position,target.global_position,catchup_speed * delta)
 	else:
+		#Camera is ahead of the player
 		global_position = lerp(global_position,lookahead, lead_speed * delta)
 		timeStationary = 0
 	super(delta)
