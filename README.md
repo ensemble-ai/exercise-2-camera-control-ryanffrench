@@ -1,4 +1,5 @@
 # Camera Control Exercise
+Note: Press "c" to toggle the camera outline.
 
 ## Description
 
