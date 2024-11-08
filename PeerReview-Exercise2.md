@@ -21,8 +21,8 @@ If you are in a rare situation where two peer-reviewers are on a single reposito
 
 ## Peer-reviewer Information
 
-* *name:* [your name here] 
-* *email:* [your @ucdavis.edu email address here]
+* *name:* Yiming Feng
+* *email:* ymfeng@ucdavis.edu
 
 ### Description ###
 
@@ -52,7 +52,7 @@ ___
 
 ### Stage 1 ###
 
-- [ ] Perfect
+- [X] Perfect
 - [ ] Great
 - [ ] Good
 - [ ] Satisfactory
@@ -60,46 +60,48 @@ ___
 
 ___
 #### Justification ##### 
-Write Justification here.
+The vessel is centered at the camera the whole time. The cross is drawn well. Everything works properly. 
 
 ___
 ### Stage 2 ###
 
 - [ ] Perfect
-- [ ] Great
+- [X] Great
 - [ ] Good
 - [ ] Satisfactory
 - [ ] Unsatisfactory
 
 ___
 #### Justification ##### 
-Write Justification here.
+The camera and the vessel is moving with the autoscroll_speed correctly. When there is no user input, the vessel is not moving in the perspective of the camera. All the fields are exported as required.
+However there's one tiny flow. Part of the body of the vessel is outside the box when the vessel is at the edge. I think it would be better if the entire vessel can stay inside the box like the push box.
 
 ___
 ### Stage 3 ###
 
 - [ ] Perfect
-- [ ] Great
+- [x] Great
 - [ ] Good
 - [ ] Satisfactory
 - [ ] Unsatisfactory
 
 ___
 #### Justification ##### 
-Write Justification here.
+The lerp mechanism is working properly, the camera is following with `follow_speed`, but never go outside of the `leash_distance`, and it's able to catch up with `catchup_speed`
+However, variables `box_height`, `box_width` and `cross_size` are exported unexpected. Other than that, everything is good.
 
 ___
 ### Stage 4 ###
 
 - [ ] Perfect
-- [ ] Great
+- [x] Great
 - [ ] Good
 - [ ] Satisfactory
 - [ ] Unsatisfactory
 
 ___
 #### Justification ##### 
-Write Justification here.
+The ahead lerp is working fine, it's able to move ahead of the vessel by the `lead_speed`, and after `catchup_delay_duration`, the camera is move back to the center with `catchup_speed`, and the camera will never go outside the `leash_distance`. All the fields are exported as required except for the `cross_size` and `timeStationary`. Another flow I noticed is that the `lead_speed` is a fixed constant and not related to the vessel's speed. This would trigger some bugs because the vessel can speed up. While the vessel is speeding up, the vessel can go in front of the camera, which is not what we want. 
 
 ___
 ### Stage 5 ###
